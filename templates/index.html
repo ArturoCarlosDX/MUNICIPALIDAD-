@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio | Municipalidad ML{% endblock %}
+
+{% block content %}
+<section class="hero-section p-4 p-lg-5 mb-4">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-7">
+      <span class="badge text-bg-light mb-3">Sistema inteligente de gestión de trámites</span>
+      <h1 class="display-5 fw-bold text-white mb-3">Municipalidad Provincial de Yau</h1>
+      <p class="lead text-white-75 mb-4">
+        Automatiza el registro, clasificación y priorización de trámites con Machine Learning para reducir tiempos de atención y mejorar la experiencia ciudadana.
+      </p>
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-light btn-lg" href="{{ url_for('dashboard') }}">Ir al Dashboard</a>
+        <a class="btn btn-outline-light btn-lg" href="{{ url_for('registrar') }}">Registrar trámite</a>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="glass-card p-4">
+        <h5 class="fw-bold mb-3">Objetivos del sistema</h5>
+        <ul class="list-unstyled mb-0 hero-list">
+          <li>Clasificación automática por prioridad.</li>
+          <li>Monitoreo visual de estados de trámite.</li>
+          <li>Alertas y notificaciones simuladas al ciudadano.</li>
+          <li>Dashboard con métricas en tiempo real.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="info-card h-100">
+      <h5 class="fw-bold">Machine Learning</h5>
+      <p class="mb-0">Modelo entrenado con más de 100 registros sintéticos para clasificar Alta, Media y Baja prioridad.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="info-card h-100">
+      <h5 class="fw-bold">Persistencia CSV</h5>
+      <p class="mb-0">No utiliza base de datos. Toda la información se guarda en dataset.csv y tramites.csv.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="info-card h-100">
+      <h5 class="fw-bold">Presentación académica</h5>
+      <p class="mb-0">Interfaz moderna con Bootstrap 5, gráficos con Chart.js y una experiencia lista para exposición final.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

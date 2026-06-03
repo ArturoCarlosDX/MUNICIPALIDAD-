@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Municipalidad ML{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Dashboard principal</h2>
+    <p class="text-muted mb-0">Resumen operativo del sistema automatizado de trámites.</p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('registrar') }}">Nuevo trámite</a>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="metric-card">
+      <span class="metric-label">Total trámites</span>
+      <div class="metric-value" id="totalTramites">{{ total }}</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="metric-card">
+      <span class="metric-label">Alta prioridad</span>
+      <div class="metric-value">{{ prioridades.get('Alta prioridad', 0) }}</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="metric-card">
+      <span class="metric-label">En proceso</span>
+      <div class="metric-value">{{ estados.get('En Proceso', 0) }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mb-4">
+  <div class="col-lg-6">
+    <div class="panel-card h-100">
+      <div class="panel-header">Trámites por prioridad</div>
+      <div class="chart-wrap"><canvas id="priorityChart"></canvas></div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel-card h-100">
+      <div class="panel-header">Trámites por estado</div>
+      <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="panel-card h-100">
+      <div class="panel-header">Notificaciones recientes</div>
+      <div id="notificationList" class="notification-list"></div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="panel-card h-100">
+      <div class="panel-header">Indicadores clave</div>
+      <div class="kpi-list">
+        <div class="kpi-item"><span>Recibidos</span><strong>{{ estados.get('Recibido', 0) }}</strong></div>
+        <div class="kpi-item"><span>Observados</span><strong>{{ estados.get('Observado', 0) }}</strong></div>
+        <div class="kpi-item"><span>Finalizados</span><strong>{{ estados.get('Finalizado', 0) }}</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.dashboardConfig = {
+    apiUrl: "{{ url_for('api_dashboard') }}"
+  };
+</script>
+{% endblock %}

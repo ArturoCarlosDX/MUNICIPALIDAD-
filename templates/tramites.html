@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Trámites | Municipalidad ML{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Gestión de trámites</h2>
+    <p class="text-muted mb-0">Tabla operativa con prioridad calculada por IA y control de estados.</p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('registrar') }}">Registrar trámite</a>
+</div>
+
+<div class="panel-card overflow-hidden">
+  <div class="table-responsive">
+    <table class="table align-middle mb-0 table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Ciudadano</th>
+          <th>Tipo de trámite</th>
+          <th>Prioridad calculada por IA</th>
+          <th>Estado</th>
+          <th>Actualizar estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tramite in tramites %}
+        <tr>
+          <td>{{ tramite.id }}</td>
+          <td>
+            <div class="fw-semibold">{{ tramite.nombre_ciudadano }}</div>
+            <small class="text-muted">DNI: {{ tramite.dni }}</small>
+          </td>
+          <td>{{ tramite.tipo_tramite }}</td>
+          <td>
+            {% set prioridad = tramite.prioridad|default('Baja prioridad') %}
+            <span class="priority-badge priority-{{ prioridad|replace(' ', '-')|lower }}">{{ prioridad }}</span>
+          </td>
+          <td>
+            <span class="status-badge status-{{ tramite.estado|replace(' ', '-')|lower }}">{{ tramite.estado }}</span>
+            {% if tramite.notificacion %}
+              <div class="small text-info mt-1">{{ tramite.notificacion }}</div>
+            {% endif %}
+          </td>
+          <td>
+            <form method="post" action="{{ url_for('cambiar_estado', tramite_id=tramite.id) }}" class="d-flex gap-2 flex-wrap">
+              <select name="estado" class="form-select form-select-sm w-auto" required>
+                <option value="Recibido" {% if tramite.estado == 'Recibido' %}selected{% endif %}>Recibido</option>
+                <option value="En Proceso" {% if tramite.estado == 'En Proceso' %}selected{% endif %}>En Proceso</option>
+                <option value="Observado" {% if tramite.estado == 'Observado' %}selected{% endif %}>Observado</option>
+                <option value="Finalizado" {% if tramite.estado == 'Finalizado' %}selected{% endif %}>Finalizado</option>
+              </select>
+              <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="text-center py-5 text-muted">Todavía no hay trámites registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
